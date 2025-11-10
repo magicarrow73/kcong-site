@@ -3,30 +3,55 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kevin Cong | Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About | Kevin Cong</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-    <nav>
-        <h1><a href="index.html">kcong.com</a></h1>
-        <ul>
-            <li><a href="projects.html">Projects</a></li>
-            <li><a href="writing.html">Writing</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </nav>
 
-    <header class="hero">
-        <h2>Welcome to my site! I am Kevin Cong.</h2>
-        <p>I am an undergraduate at Harvard studying math and statistics.
-            This site collects my projects, writing, and notes.</p>
-        <a href="projects.html" class="button">See My Work →</a>
+    <header>
+        <h1><a href="#">Kevin Cong</a></h1>
+        <nav>
+            <a href="index.html" class="active">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#writing">Writing</a>
+            <a href="#contact">Contact</a>
+        </nav>
     </header>
 
-    <footer>© 2025 Kevin Cong</footer>
-    <script src="script.js"></script>
+    <main id="about">
+        <h2>About</h2>
+        <div class="about-container">
+            <img src="portrait.jpg" alt="Kevin Cong portrait" class="about-photo" />
+            <div class="about-text">
+                <h3>Kevin Cong</h3>
+                <p>
+                    I’m a student and researcher at Harvard University interested in computer science,
+                    mathematics, and optimization. I build systems that combine theoretical rigor with
+                    practical engineering — from distributed auctions to private optimization algorithms.
+                </p>
+                <p>
+                    I grew up fascinated by how abstract ideas translate into real-world impact.
+                    My work explores the boundary between algorithmic theory and systems design,
+                    often bridging machine learning, privacy, and distributed systems.
+                </p>
+                <p>
+                    If anything here sparks a thought, feel free to reach out at
+                    <a href="mailto:kevin@kcong.com">kevin@kcong.com</a>.
+                    You can also view my <a href="resume.pdf">resume</a>.
+                </p>
+                <p>
+                    <a href="#writing" class="latest-link">→ Latest posts</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 Kevin Cong</p>
+    </footer>
+
 </body>
 
 </html>
