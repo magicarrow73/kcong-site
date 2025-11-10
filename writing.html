@@ -2,34 +2,62 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Writing | Kevin Cong</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-    <nav>
-        <h1><a href="index.html">kcong.com</a></h1>
-        <ul>
-            <li><a href="projects.html">Projects</a></li>
-            <li><a href="writing.html" class="active">Writing</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </nav>
 
-    <main class="content">
-        <h2>Writing & Notes</h2>
+    <header>
+        <div class="nav-container">
+            <h1><a href="index.html">Kevin Cong</a></h1>
+            <nav>
+                <a href="index.html">About</a>
+                <a href="projects.html">Projects</a>
+                <a href="writing.html" class="active">Writing</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
 
-        <article>
-            <h3>High Dimensional Statistics Notes</h3>
-            <p>[todo]</p>
-        </article>
+    <main id="writing">
+        <h2>Writing</h2>
+        <p>Occasional essays, reflections, and notes on technology, research, and ideas that interest me.</p>
 
+        <div class="card">
+            <h3><a href="#" class="post-link">The Anxiety of Optimization</a></h3>
+            <p>
+                A short reflection on how the drive for efficiency in systems — and in life — can both empower and
+                exhaust us.
+            </p>
+            <p class="post-meta">Oct 2025</p>
+        </div>
+
+        <div class="card">
+            <h3><a href="#" class="post-link">Distributed Systems and Human Systems</a></h3>
+            <p>
+                Some thoughts on fault tolerance, communication, and coordination — in machines and among people.
+            </p>
+            <p class="post-meta">Sep 2025</p>
+        </div>
+
+        <div class="card">
+            <h3><a href="#" class="post-link">Why Privacy Still Matters</a></h3>
+            <p>
+                Beyond compliance: why differential privacy is philosophically and socially important in the age of
+                machine learning.
+            </p>
+            <p class="post-meta">Aug 2025</p>
+        </div>
 
     </main>
 
-    <footer>© 2025 Kevin Cong</footer>
+    <footer>
+        <p>© 2025 Kevin Cong</p>
+    </footer>
+
 </body>
 
 </html>
