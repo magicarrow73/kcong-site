@@ -4,6 +4,26 @@
         {
             "src": "*.html",
             "use": "@vercel/static"
+        },
+        {
+            "src": "*.css",
+            "use": "@vercel/static"
+        },
+        {
+            "src": "images/**/*",
+            "use": "@vercel/static"
+        },
+        {
+            "src": "assets/**/*",
+            "use": "@vercel/static"
+        },
+        {
+            "src": "writing/**/*",
+            "use": "@vercel/static"
+        },
+        {
+            "src": "script.js",
+            "use": "@vercel/static"
         }
     ],
     "routes": [
