@@ -5,17 +5,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Projects | Kevin Cong</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/style.css" />
 </head>
 
 <body>
     <header>
         <div class="nav-container">
-            <h1><a href="index.html">kevin cong</a></h1>
+            <h1><a href="/">kevin cong</a></h1>
             <nav>
-                <a href="index.html">About</a>
-                <a href="projects.html" class="active">Projects</a>
-                <a href="writing.html">Writing</a>
+                <a href="/">About</a>
+                <a href="/projects.html" class="active">Projects</a>
+                <a href="/writing.html">Writing</a>
             </nav>
         </div>
     </header>
@@ -24,24 +24,18 @@
         <h2>Projects</h2>
         <p>This page consists of various research and personal projects I have worked on.</p>
 
-
-        <!-- New Papers subsection -->
         <section id="papers" class="content">
             <h3>Research Publications</h3>
             <p>selected academic work: papers and preprints.</p>
-
             <div id="papers-list"></div>
         </section>
 
-        <!-- New Personal Projects subsection -->
         <section class="content">
             <h3>Projects</h3>
             <p>some personal projects I've worked on.</p>
             <div class="card">
                 <h4>Todo</h4>
-                <p>
-                    Todo
-                </p>
+                <p>Todo</p>
             </div>
         </section>
     </main>
@@ -51,8 +45,7 @@
     </footer>
 
     <script>
-        // load papers dynamically
-        fetch('assets/papers.json')
+        fetch('/assets/papers.json')
             .then(res => res.json())
             .then(papers => {
                 const container = document.getElementById('papers-list');
@@ -72,8 +65,7 @@
                 ${paper.code ? `<a href="${paper.code}" target="_blank">Code</a>` : ''}
                 ${paper.website ? `<a href="${paper.website}" target="_blank">Website</a>` : ''}
               </div>
-            </div>
-          `;
+            </div>`;
                     container.appendChild(div);
                 });
             })

@@ -5,23 +5,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Writing | Kevin Cong</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/style.css" />
 </head>
 
 <body>
-    <!-- ---------- HEADER ---------- -->
     <header>
         <div class="nav-container">
-            <h1><a href="index.html">kevin cong</a></h1>
+            <h1><a href="/">kevin cong</a></h1>
             <nav>
-                <a href="index.html">About</a>
-                <a href="projects.html">Projects</a>
-                <a href="writing.html" class="active">Writing</a>
+                <a href="/">About</a>
+                <a href="/projects.html">Projects</a>
+                <a href="/writing.html" class="active">Writing</a>
             </nav>
         </div>
     </header>
 
-    <!-- ---------- MAIN CONTENT ---------- -->
     <main id="writing">
         <h2>Writing</h2>
         <p>
@@ -45,7 +43,6 @@
     </footer>
 
     <script>
-        // Helper to build a card for each post
         function createCard(post) {
             const div = document.createElement('div');
             div.className = 'writing-item';
@@ -53,33 +50,29 @@
 
             let link = "";
             if (post.external_url) {
-                // External (Overleaf, arXiv, Notion, etc.)
                 link = post.external_url;
             } else if (post.pdf_url) {
-                // Internal PDF viewer page
                 const encodedTitle = encodeURIComponent(post.title);
                 const encodedDate = encodeURIComponent(post.date || "");
                 const encodedPDF = encodeURIComponent(post.pdf_url || "");
                 const encodedDesc = encodeURIComponent(post.detailed_description || "");
-                link = `writing/post_template.html?title=${encodedTitle}&date=${encodedDate}&pdf=${encodedPDF}&desc=${encodedDesc}`;
+                link = `/writing/post_template.html?title=${encodedTitle}&date=${encodedDate}&pdf=${encodedPDF}&desc=${encodedDesc}`;
             } else if (post.doc_url) {
-                // Internal Google Doc fetch
                 const encodedTitle = encodeURIComponent(post.title);
                 const encodedDate = encodeURIComponent(post.date || "");
                 const encodedDoc = encodeURIComponent(post.doc_url || "");
                 const encodedDesc = encodeURIComponent(post.detailed_description || "");
-                link = `writing/post_template.html?title=${encodedTitle}&date=${encodedDate}&doc=${encodedDoc}&desc=${encodedDesc}`;
+                link = `/writing/post_template.html?title=${encodedTitle}&date=${encodedDate}&doc=${encodedDoc}&desc=${encodedDesc}`;
             }
 
             div.innerHTML = `
-      ${date}
-      <h3><a href="${link}" target="_blank">${post.title}</a></h3>
-      <p>${post.description || ""}</p>
-    `;
+        ${date}
+        <h3><a href="${link}" target="_blank">${post.title}</a></h3>
+        <p>${post.description || ""}</p>
+      `;
             return div;
         }
 
-        // Load JSONs and render
         function loadJSON(path, containerId) {
             fetch(path)
                 .then(res => res.json())
@@ -94,14 +87,9 @@
                 });
         }
 
-        loadJSON('assets/writing_personal.json', 'personal-list');
-        loadJSON('assets/writing_technical.json', 'technical-list');
+        loadJSON('/assets/writing_personal.json', 'personal-list');
+        loadJSON('/assets/writing_technical.json', 'technical-list');
     </script>
-
-
-
-
-
 </body>
 
 </html>

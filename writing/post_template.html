@@ -5,22 +5,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Post | Kevin Cong</title>
-    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="/style.css" />
 </head>
 
 <body>
+    <!-- ---------- HEADER ---------- -->
     <header>
         <div class="nav-container">
-            <h1><a href="../index.html">Kevin Cong</a></h1>
+            <h1><a href="/">kevin cong</a></h1>
             <nav>
-                <a href="../index.html">About</a>
-                <a href="../projects.html">Projects</a>
-                <a href="../writing.html" class="active">Writing</a>
-                <a href="../contact.html">Contact</a>
+                <a href="/">About</a>
+                <a href="/projects.html">Projects</a>
+                <a href="/writing.html" class="active">Writing</a>
             </nav>
         </div>
     </header>
 
+    <!-- ---------- MAIN CONTENT ---------- -->
     <main class="content">
         <div class="post-header">
             <div class="post-title-date">
@@ -31,14 +32,15 @@
         </div>
 
         <div id="doc-content">Loading...</div>
-
     </main>
 
     <footer>
         <p>© 2025 Kevin Cong</p>
     </footer>
 
+    <!-- ---------- SCRIPT ---------- -->
     <script>
+        // Read parameters from URL
         const params = new URLSearchParams(window.location.search);
         const title = decodeURIComponent(params.get("title") || "");
         const date = decodeURIComponent(params.get("date") || "");
@@ -46,12 +48,13 @@
         const doc = decodeURIComponent(params.get("doc") || "");
         const pdf = decodeURIComponent(params.get("pdf") || "");
 
+        // Set title/date
         document.getElementById("post-title").innerText = title;
         document.getElementById("post-date").innerText = date;
 
         const container = document.getElementById("doc-content");
 
-        // Add detailed description if provided
+        // Add optional detailed description above content
         if (desc) {
             const descElem = document.createElement("p");
             descElem.className = "detailed-description";
@@ -59,39 +62,24 @@
             document.querySelector("main").insertBefore(descElem, container);
         }
 
+        // Render PDF or Google Doc
         if (pdf) {
+            // Embed PDF directly
             container.innerHTML = `
-      <iframe src="${pdf}" width="100%" height="800px" style="border:none;"></iframe>
-      <p><a href="${pdf}" target="_blank">Open PDF in new tab ↗</a></p>
-    `;
+        <iframe src="${pdf}" width="100%" height="800px" style="border:none;"></iframe>
+        <p><a href="${pdf}" target="_blank">Open PDF in new tab ↗</a></p>
+      `;
         } else if (doc) {
-            const fullURL = doc.includes("?") ? doc : doc + "?embedded=true";
-            console.log("Fetching:", fullURL);
-
-            fetch(fullURL, { mode: "cors" })
-                .then(res => {
-                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                    return res.text();
-                })
-                .then(html => {
-                    const parser = new DOMParser();
-                    const parsed = parser.parseFromString(html, "text/html");
-                    const bodyHTML = parsed.body ? parsed.body.innerHTML : html;
-                    container.innerHTML = bodyHTML;
-                })
-                .catch(err => {
-                    console.error("Failed to load doc:", err);
-                    container.innerHTML = `<p style="color:#999;">Could not load content (${err.message}).</p>`;
-                });
+            // If it's a published Google Doc, embed it directly
+            const embedURL = doc.includes("?") ? doc : doc + "?embedded=true";
+            container.innerHTML = `
+        <iframe src="${embedURL}" width="100%" height="800px" style="border:none;"></iframe>
+        <p><a href="${doc}" target="_blank">Open full document ↗</a></p>
+      `;
         } else {
             container.innerHTML = "<p>No document or PDF specified for this post.</p>";
         }
     </script>
-
-
-
-
-
 </body>
 
 </html>
