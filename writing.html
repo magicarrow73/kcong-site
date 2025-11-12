@@ -5,21 +5,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Writing | Kevin Cong</title>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
+    <!-- ---------- HEADER ---------- -->
     <header>
         <div class="nav-container">
-            <h1><a href="/">kevin cong</a></h1>
+            <h1><a href="index.html">kevin cong</a></h1>
             <nav>
-                <a href="/">About</a>
-                <a href="/projects.html">Projects</a>
-                <a href="/writing.html" class="active">Writing</a>
+                <a href="index.html">About</a>
+                <a href="projects.html">Projects</a>
+                <a href="writing.html" class="active">Writing</a>
             </nav>
         </div>
     </header>
 
+    <!-- ---------- MAIN CONTENT ---------- -->
     <main id="writing">
         <h2>Writing</h2>
         <p>
@@ -42,11 +44,13 @@
         <p>© 2025 Kevin Cong</p>
     </footer>
 
+    <!-- ---------- SCRIPT ---------- -->
     <script>
+        // Helper: create a card for each writing entry
         function createCard(post) {
-            const div = document.createElement('div');
-            div.className = 'writing-item';
-            const date = post.date ? `<span class="writing-date">${post.date}</span>` : '';
+            const div = document.createElement("div");
+            div.className = "writing-item";
+            const date = post.date ? `<span class="writing-date">${post.date}</span>` : "";
 
             let link = "";
             if (post.external_url) {
@@ -56,39 +60,56 @@
                 const encodedDate = encodeURIComponent(post.date || "");
                 const encodedPDF = encodeURIComponent(post.pdf_url || "");
                 const encodedDesc = encodeURIComponent(post.detailed_description || "");
-                link = `/writing/post_template.html?title=${encodedTitle}&date=${encodedDate}&pdf=${encodedPDF}&desc=${encodedDesc}`;
+                link = `writing/post_template.html?title=${encodedTitle}&date=${encodedDate}&pdf=${encodedPDF}&desc=${encodedDesc}`;
             } else if (post.doc_url) {
                 const encodedTitle = encodeURIComponent(post.title);
                 const encodedDate = encodeURIComponent(post.date || "");
                 const encodedDoc = encodeURIComponent(post.doc_url || "");
                 const encodedDesc = encodeURIComponent(post.detailed_description || "");
-                link = `/writing/post_template.html?title=${encodedTitle}&date=${encodedDate}&doc=${encodedDoc}&desc=${encodedDesc}`;
+                link = `writing/post_template.html?title=${encodedTitle}&date=${encodedDate}&doc=${encodedDoc}&desc=${encodedDesc}`;
             }
 
             div.innerHTML = `
-        ${date}
-        <h3><a href="${link}" target="_blank">${post.title}</a></h3>
-        <p>${post.description || ""}</p>
-      `;
+                ${date}
+                <h3><a href="${link}" target="_blank">${post.title}</a></h3>
+                <p>${post.description || ""}</p>
+            `;
             return div;
         }
 
-        function loadJSON(path, containerId) {
+        // Load a JSON file and populate its container. Remove section if empty.
+        function loadJSON(path, containerId, sectionId) {
             fetch(path)
                 .then(res => res.json())
                 .then(posts => {
                     const container = document.getElementById(containerId);
+                    const section = document.getElementById(sectionId);
+
+                    // Sort posts by date descending
                     posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-                    posts.forEach(post => container.appendChild(createCard(post)));
+
+                    // Filter valid posts (some might be blank placeholders)
+                    const validPosts = posts.filter(p => p.title && (p.external_url || p.pdf_url || p.doc_url));
+
+                    if (validPosts.length === 0) {
+                        // Remove section entirely if empty
+                        section.remove();
+                        return;
+                    }
+
+                    // Otherwise render normally
+                    validPosts.forEach(post => container.appendChild(createCard(post)));
                 })
                 .catch(err => {
                     console.error(`Error loading ${path}:`, err);
-                    document.getElementById(containerId).innerHTML = "<p>Couldn't load entries.</p>";
+                    const section = document.getElementById(sectionId);
+                    section.remove(); // If fetch fails, remove section too
                 });
         }
 
-        loadJSON('/assets/writing_personal.json', 'personal-list');
-        loadJSON('/assets/writing_technical.json', 'technical-list');
+        // Load both sections
+        loadJSON("assets/writing_personal.json", "personal-list", "personal-notes");
+        loadJSON("assets/writing_technical.json", "technical-list", "technical-writings");
     </script>
 </body>
 

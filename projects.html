@@ -5,17 +5,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Projects | Kevin Cong</title>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
     <header>
         <div class="nav-container">
-            <h1><a href="/">kevin cong</a></h1>
+            <h1><a href="index.html">kevin cong</a></h1>
             <nav>
-                <a href="/">About</a>
-                <a href="/projects.html" class="active">Projects</a>
-                <a href="/writing.html">Writing</a>
+                <a href="index.html">About</a>
+                <a href="projects.html" class="active">Projects</a>
+                <a href="writing.html">Writing</a>
             </nav>
         </div>
     </header>
@@ -24,19 +24,18 @@
         <h2>Projects</h2>
         <p>This page consists of various research and personal projects I have worked on.</p>
 
-        <section id="papers" class="content">
+        <!-- Research Publications -->
+        <section id="papers-section" class="content">
             <h3>Research Publications</h3>
             <p>selected academic work: papers and preprints.</p>
             <div id="papers-list"></div>
         </section>
 
-        <section class="content">
+        <!-- Personal Projects -->
+        <section id="personal-projects" class="content">
             <h3>Projects</h3>
             <p>some personal projects I've worked on.</p>
-            <div class="card">
-                <h4>Todo</h4>
-                <p>Todo</p>
-            </div>
+            <div id="projects-list"></div>
         </section>
     </main>
 
@@ -45,34 +44,68 @@
     </footer>
 
     <script>
-        fetch('/assets/papers.json')
-            .then(res => res.json())
-            .then(papers => {
-                const container = document.getElementById('papers-list');
-                papers.forEach(paper => {
-                    const div = document.createElement('div');
-                    div.className = 'paper-item';
-                    div.innerHTML = `
-            <div class="paper-thumb">
-              ${paper.image ? `<img src="${paper.image}" alt="${paper.title}">` : ''}
-            </div>
-            <div class="paper-info">
-              <h4 class="paper-title">${paper.title}</h4>
-              <p class="paper-authors">${paper.authors}</p>
-              <p class="paper-venue"><i>${paper.venue}</i>, ${paper.year}</p>
-              <div class="paper-links">
-                ${paper.pdf ? `<a href="${paper.pdf}" target="_blank">Paper</a>` : ''}
-                ${paper.code ? `<a href="${paper.code}" target="_blank">Code</a>` : ''}
-                ${paper.website ? `<a href="${paper.website}" target="_blank">Website</a>` : ''}
-              </div>
-            </div>`;
-                    container.appendChild(div);
+        // ---------- Helper to create paper cards ----------
+        function createPaperItem(paper) {
+            const div = document.createElement("div");
+            div.className = "paper-item";
+            div.innerHTML = `
+                <div class="paper-thumb">
+                    ${paper.image ? `<img src="${paper.image}" alt="${paper.title}">` : ""}
+                </div>
+                <div class="paper-info">
+                    <h4 class="paper-title">${paper.title}</h4>
+                    <p class="paper-authors">${paper.authors}</p>
+                    <p class="paper-venue"><i>${paper.venue}</i>, ${paper.year}</p>
+                    <div class="paper-links">
+                        ${paper.pdf ? `<a href="${paper.pdf}" target="_blank">Paper</a>` : ""}
+                        ${paper.code ? `<a href="${paper.code}" target="_blank">Code</a>` : ""}
+                        ${paper.website ? `<a href="${paper.website}" target="_blank">Website</a>` : ""}
+                    </div>
+                </div>
+            `;
+            return div;
+        }
+
+        // ---------- Helper to create personal project cards ----------
+        function createProjectCard(project) {
+            const div = document.createElement("div");
+            div.className = "card";
+            div.innerHTML = `
+                <h4>${project.title}</h4>
+                <p>${project.description || ""}</p>
+                ${project.link ? `<a href="${project.link}" target="_blank" class="button">View</a>` : ""}
+            `;
+            return div;
+        }
+
+        // ---------- Generic loader with fallback ----------
+        function loadJSON(path, containerId, sectionId, builderFn) {
+            fetch(path)
+                .then(res => res.json())
+                .then(items => {
+                    const container = document.getElementById(containerId);
+                    const section = document.getElementById(sectionId);
+
+                    // Filter out empty entries
+                    const validItems = items.filter(item => item.title);
+
+                    if (validItems.length === 0) {
+                        section.remove(); // Remove entire section if no valid entries
+                        return;
+                    }
+
+                    validItems.forEach(item => container.appendChild(builderFn(item)));
+                })
+                .catch(err => {
+                    console.error(`Error loading ${path}:`, err);
+                    const section = document.getElementById(sectionId);
+                    if (section) section.remove(); // Also remove on fetch failure
                 });
-            })
-            .catch(err => {
-                console.error(err);
-                document.getElementById('papers-list').innerHTML = '<p>Failed to load papers.</p>';
-            });
+        }
+
+        // ---------- Load everything ----------
+        loadJSON("assets/papers.json", "papers-list", "papers-section", createPaperItem);
+        loadJSON("assets/projects.json", "projects-list", "personal-projects", createProjectCard);
     </script>
 </body>
 
