@@ -9,37 +9,98 @@
 </head>
 
 <body>
-
+    <!-- ---------- HEADER ---------- -->
     <header>
         <div class="nav-container">
-            <h1><a href="index.html">Kevin Cong</a></h1>
+            <h1><a href="index.html">kevin cong</a></h1>
             <nav>
                 <a href="index.html">About</a>
                 <a href="projects.html">Projects</a>
                 <a href="writing.html" class="active">Writing</a>
-                <a href="contact.html">Contact</a>
             </nav>
         </div>
     </header>
 
+    <!-- ---------- MAIN CONTENT ---------- -->
     <main id="writing">
         <h2>Writing</h2>
-        <p>Occasional essays, reflections, and notes on technology, research, and ideas that interest me.</p>
+        <p>
+            a collection of things I have written; partially as a potpourri of thoughts, including a blog,
+            random opinions, personal notes, course notes, and technical resources / thoughts.
+        </p>
 
-        <div class="card">
-            <h3><a href="#" class="post-link">Notes on Resources</a></h3>
-            <p>
-                [TODO:]
-            </p>
-            <p class="post-meta">Oct 2025</p>
-        </div>
+        <section id="personal-notes">
+            <h3>Personal Notes: Blog Posts</h3>
+            <div id="personal-list"></div>
+        </section>
 
-
+        <section id="technical-writings">
+            <h3>Technical Writings: Notes, Resources, etc.</h3>
+            <div id="technical-list"></div>
+        </section>
     </main>
 
     <footer>
         <p>© 2025 Kevin Cong</p>
     </footer>
+
+    <script>
+        // Helper to build a card for each post
+        function createCard(post) {
+            const div = document.createElement('div');
+            div.className = 'writing-item';
+            const date = post.date ? `<span class="writing-date">${post.date}</span>` : '';
+
+            let link = "";
+            if (post.external_url) {
+                // External (Overleaf, arXiv, Notion, etc.)
+                link = post.external_url;
+            } else if (post.pdf_url) {
+                // Internal PDF viewer page
+                const encodedTitle = encodeURIComponent(post.title);
+                const encodedDate = encodeURIComponent(post.date || "");
+                const encodedPDF = encodeURIComponent(post.pdf_url || "");
+                const encodedDesc = encodeURIComponent(post.detailed_description || "");
+                link = `writing/post_template.html?title=${encodedTitle}&date=${encodedDate}&pdf=${encodedPDF}&desc=${encodedDesc}`;
+            } else if (post.doc_url) {
+                // Internal Google Doc fetch
+                const encodedTitle = encodeURIComponent(post.title);
+                const encodedDate = encodeURIComponent(post.date || "");
+                const encodedDoc = encodeURIComponent(post.doc_url || "");
+                const encodedDesc = encodeURIComponent(post.detailed_description || "");
+                link = `writing/post_template.html?title=${encodedTitle}&date=${encodedDate}&doc=${encodedDoc}&desc=${encodedDesc}`;
+            }
+
+            div.innerHTML = `
+      ${date}
+      <h3><a href="${link}" target="_blank">${post.title}</a></h3>
+      <p>${post.description || ""}</p>
+    `;
+            return div;
+        }
+
+        // Load JSONs and render
+        function loadJSON(path, containerId) {
+            fetch(path)
+                .then(res => res.json())
+                .then(posts => {
+                    const container = document.getElementById(containerId);
+                    posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    posts.forEach(post => container.appendChild(createCard(post)));
+                })
+                .catch(err => {
+                    console.error(`Error loading ${path}:`, err);
+                    document.getElementById(containerId).innerHTML = "<p>Couldn't load entries.</p>";
+                });
+        }
+
+        loadJSON('assets/writing_personal.json', 'personal-list');
+        loadJSON('assets/writing_technical.json', 'technical-list');
+    </script>
+
+
+
+
 
 </body>
 

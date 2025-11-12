@@ -1,0 +1,30 @@
+[
+    {
+        "title": "Optimal Inference Schedules for Masked Diffusion Models",
+        "authors": "Sitan Chen, Kevin Cong, Jerry Li",
+        "venue": "preprint",
+        "year": "2025",
+        "pdf": "https://arxiv.org/pdf/2511.04647"
+    },
+    {
+        "title": "DP-AdamW: Investigating Decoupled Weight Decay and Bias Correction in Private Deep Learning",
+        "authors": "Jay Chooi, Kevin Cong, Russell Li, Lillian Sun",
+        "venue": "Proceedings of the 42nd International Conference on Machine Learning, Vancouver, Canada. PMLR 267, 2025",
+        "year": "2025",
+        "pdf": "https://arxiv.org/pdf/2511.07843"
+    },
+    {
+        "title": "On Integer Sets Excluding Permutation Pattern Waves",
+        "authors": "Kevin Cong",
+        "venue": "preprint",
+        "year": "2023",
+        "pdf": "https://arxiv.org/abs/2308.15695"
+    },
+    {
+        "title": "On Two Orderings of Lattice Paths",
+        "authors": "PJ Apruzzese, Kevin Cong",
+        "venue": "preprint",
+        "year": "2023",
+        "pdf": "https://arxiv.org/pdf/2310.16963"
+    }
+]

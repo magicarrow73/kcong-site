@@ -1,0 +1,9 @@
+[
+    {
+        "title": "Statistics 216 [High-Dimensional Probability] Notes",
+        "date": "Fall 2024",
+        "detailed_description": "These are my personal notes for Harvard's Statistics 216 course on high-dimensional probability, taught by Subhabrata Sen in Fall 2024. This course is based on material from Vershynin and Van Handel's respective books on high-dimensional probability, covering topics such as concentration results, random matrices, and applications to statistics and machine learning.",
+        "description": "Notes on Harvard's Statistics 216 course on high-dimensional probability, taught by Subhabrata Sen.",
+        "pdf_url": "documents/stat216_notes.pdf"
+    }
+]

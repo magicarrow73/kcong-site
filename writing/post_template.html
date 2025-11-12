@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Post | Kevin Cong</title>
+    <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body>
+    <header>
+        <div class="nav-container">
+            <h1><a href="../index.html">Kevin Cong</a></h1>
+            <nav>
+                <a href="../index.html">About</a>
+                <a href="../projects.html">Projects</a>
+                <a href="../writing.html" class="active">Writing</a>
+                <a href="../contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="content">
+        <div class="post-header">
+            <div class="post-title-date">
+                <h2 id="post-title">Loading...</h2>
+                <span class="writing-date" id="post-date"></span>
+            </div>
+            <p class="detailed-description" id="post-desc"></p>
+        </div>
+
+        <div id="doc-content">Loading...</div>
+
+    </main>
+
+    <footer>
+        <p>© 2025 Kevin Cong</p>
+    </footer>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const title = decodeURIComponent(params.get("title") || "");
+        const date = decodeURIComponent(params.get("date") || "");
+        const desc = decodeURIComponent(params.get("desc") || "");
+        const doc = decodeURIComponent(params.get("doc") || "");
+        const pdf = decodeURIComponent(params.get("pdf") || "");
+
+        document.getElementById("post-title").innerText = title;
+        document.getElementById("post-date").innerText = date;
+
+        const container = document.getElementById("doc-content");
+
+        // Add detailed description if provided
+        if (desc) {
+            const descElem = document.createElement("p");
+            descElem.className = "detailed-description";
+            descElem.innerText = desc;
+            document.querySelector("main").insertBefore(descElem, container);
+        }
+
+        if (pdf) {
+            container.innerHTML = `
+      <iframe src="${pdf}" width="100%" height="800px" style="border:none;"></iframe>
+      <p><a href="${pdf}" target="_blank">Open PDF in new tab ↗</a></p>
+    `;
+        } else if (doc) {
+            const fullURL = doc.includes("?") ? doc : doc + "?embedded=true";
+            console.log("Fetching:", fullURL);
+
+            fetch(fullURL, { mode: "cors" })
+                .then(res => {
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    return res.text();
+                })
+                .then(html => {
+                    const parser = new DOMParser();
+                    const parsed = parser.parseFromString(html, "text/html");
+                    const bodyHTML = parsed.body ? parsed.body.innerHTML : html;
+                    container.innerHTML = bodyHTML;
+                })
+                .catch(err => {
+                    console.error("Failed to load doc:", err);
+                    container.innerHTML = `<p style="color:#999;">Could not load content (${err.message}).</p>`;
+                });
+        } else {
+            container.innerHTML = "<p>No document or PDF specified for this post.</p>";
+        }
+    </script>
+
+
+
+
+
+</body>
+
+</html>

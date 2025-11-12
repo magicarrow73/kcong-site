@@ -9,36 +9,79 @@
 </head>
 
 <body>
-
     <header>
         <div class="nav-container">
-            <h1><a href="index.html">Kevin Cong</a></h1>
+            <h1><a href="index.html">kevin cong</a></h1>
             <nav>
                 <a href="index.html">About</a>
                 <a href="projects.html" class="active">Projects</a>
                 <a href="writing.html">Writing</a>
-                <a href="contact.html">Contact</a>
             </nav>
         </div>
     </header>
 
     <main id="projects">
         <h2>Projects</h2>
+        <p>This page consists of various research and personal projects I have worked on.</p>
 
-        <div class="card">
-            <h3>DP-AdamW Optimizer Research</h3>
-            <p>
-                NeurIPS-style theoretical and empirical study of differential privacy in adaptive
-                optimizers. Implemented in JAX and PyTorch.
-            </p>
-        </div>
 
+        <!-- New Papers subsection -->
+        <section id="papers" class="content">
+            <h3>Research Publications</h3>
+            <p>selected academic work: papers and preprints.</p>
+
+            <div id="papers-list"></div>
+        </section>
+
+        <!-- New Personal Projects subsection -->
+        <section class="content">
+            <h3>Projects</h3>
+            <p>some personal projects I've worked on.</p>
+            <div class="card">
+                <h4>Todo</h4>
+                <p>
+                    Todo
+                </p>
+            </div>
+        </section>
     </main>
 
     <footer>
         <p>© 2025 Kevin Cong</p>
     </footer>
 
+    <script>
+        // load papers dynamically
+        fetch('assets/papers.json')
+            .then(res => res.json())
+            .then(papers => {
+                const container = document.getElementById('papers-list');
+                papers.forEach(paper => {
+                    const div = document.createElement('div');
+                    div.className = 'paper-item';
+                    div.innerHTML = `
+            <div class="paper-thumb">
+              ${paper.image ? `<img src="${paper.image}" alt="${paper.title}">` : ''}
+            </div>
+            <div class="paper-info">
+              <h4 class="paper-title">${paper.title}</h4>
+              <p class="paper-authors">${paper.authors}</p>
+              <p class="paper-venue"><i>${paper.venue}</i>, ${paper.year}</p>
+              <div class="paper-links">
+                ${paper.pdf ? `<a href="${paper.pdf}" target="_blank">Paper</a>` : ''}
+                ${paper.code ? `<a href="${paper.code}" target="_blank">Code</a>` : ''}
+                ${paper.website ? `<a href="${paper.website}" target="_blank">Website</a>` : ''}
+              </div>
+            </div>
+          `;
+                    container.appendChild(div);
+                });
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('papers-list').innerHTML = '<p>Failed to load papers.</p>';
+            });
+    </script>
 </body>
 
 </html>
